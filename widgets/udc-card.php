@@ -167,6 +167,28 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 				'label_block' => true,
 			]
 		);
+
+        $this->add_control(
+			'sad',
+			[
+				'label' => esc_html__( 'Sad Image', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => UDC_PLUGIN_ASSETS_FILE . '/images/sad.png',
+				],
+			]
+		);
+
+        $this->add_control(
+			'happy',
+			[
+				'label' => esc_html__( 'Happy Image', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => UDC_PLUGIN_ASSETS_FILE . '/images/happy.png',
+				],
+			]
+		);
 	
 
 		$this->end_controls_section();
@@ -305,6 +327,11 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 margin-bottom: 25px;
             }
 
+            .udc_container .result_cards .ico{
+                height: 162px;
+                object-fit: contain;
+            }
+
             .udc_container .card {
                 background: linear-gradient(0deg, rgba(15, 60, 41, 0.4), rgba(15, 60, 41, 0.4));
                 border: 1px solid #FFFFFF;
@@ -379,9 +406,9 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
             }
 
             .udc_container .note {
-                font-size: 22px;
+                font-size: 20px;
                 font-weight: 400;
-                line-height: 27px;
+                line-height: 36px;
                 letter-spacing: 0em;
                 text-align: center;
                 font-family: 'Inter', sans-serif;
@@ -414,20 +441,22 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
             .range_slider {
                 width: 100%; /* Adjust width as needed */
                 position: relative;
-                margin-bottom: 100px;
+                margin-bottom: 70px;
             }
 
             .custom_slider {
                 width: 100%;
-                height: 12px;
-                background-color: transparent;
-                border-radius: 6px;
-                border: 1px solid #104CBA;
+                position: relative;
             }
 
             .slide {
-                position: relative;
-                height: 100%;
+                position: absolute;
+                top: 10px;
+                height: 12px;
+                width: 100%;
+                background-color: transparent;
+                border-radius: 6px;
+                border: 1px solid #104CBA;
             }
 
             .handle {
@@ -443,6 +472,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 justify-content: center;
                 align-items: center;
                 border-radius: 50%;
+                z-index: 1;
             }
 
             .handle svg path{
@@ -455,8 +485,27 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
             }
 
             #vol_slider{
-                position: absolute;
+                width: 100%;
+                position: relative;
+                z-index: 2;
+                cursor: pointer;
+                padding: 20px 0 0;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-color: transparent;
+                opacity: 0;
             }
+
+            #vol_slider::-webkit-slider-thumb,
+            #vol_slider::-moz-range-thumb,
+            #vol_slider::-ms-thumb {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+
+
 
             .value_display {
                 position: absolute;
@@ -480,20 +529,26 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 cursor: pointer;
             }
 
-            .points.dots span {
-                width: 10px;
-                height: 10px;
-                display: inline-block;
-                background: white;
-                border-radius: 50%;
-                z-index: 0;
+            .points.nos{
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                width: calc(100% + 41.4px);
+                margin: -4px -16px;
             }
 
-            .points.nos{
+            .points.nos span:before{
+                content: "";
+                display: block;
                 position: absolute;
-                left: 0;
-                right: 0;
-                bottom: -40px;
+                top: -31px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: white;
+                border: 2px solid #edf4f2;
             }
 
             .points.nos span, .value_display{
@@ -506,6 +561,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 
             .points.nos span{
                 color: #9699AC;
+                position: relative;
             }
 
             .udc_container{
@@ -564,8 +620,14 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 }
 
                 .udc_container .note{
-                    font-size: 18px;
-                    line-height: 18px;
+                    font-size: 14px;
+                    line-height: 30px;
+                    margin-bottom: 25px;
+                    padding-bottom: 25px;
+                }
+
+                .range_slider{
+                    margin-bottom: 50px;
                 }
             }
 		</style>
@@ -575,31 +637,24 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
             <p><?php echo $settings['sub_heading']; ?></p>
             <div class="range_slider">
                 <div class="custom_slider">
+                    <input style="" id="vol_slider" type="range" min="1000" max="5000" step="50">
                     <div class="slide">
                         <div class="fill"></div>
-                        <div class="points dots">
-                            <span data-points="1000"></span>
-                            <span data-points="2000"></span>
-                            <span data-points="3000"></span>
-                            <span data-points="4000"></span>
-                            <span data-points="5000"></span>
-                        </div>
-                        <div class="points nos">
-                            <span data-points="1000">1000</span>
-                            <span data-points="2000">2000</span>
-                            <span data-points="3000">3000</span>
-                            <span data-points="4000">4000</span>
-                            <span data-points="5000">5000+</span>
-                        </div>
                         <div class="handle">
                             <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18.1983 5.70336L14.5 2.00502L16.145 0.348358L21.5 5.70336L16.145 11.0467L14.5 9.40169L18.1983 5.70336ZM3.80167 5.70336L7.5 9.40169L5.855 11.0584L0.5 5.70336L5.855 0.360025L7.5 2.00502L3.80167 5.70336Z" fill="black"/>
+                                <path d="M18.1983 5.70336L14.5 2.00502L16.145 0.348358L21.5 5.70336L16.145 11.0467L14.5 9.40169L18.1983 5.70336ZM3.80167 5.70336L7.5 9.40169L5.855 11.0584L0.5 5.70336L5.855 0.360025L7.5 2.00502L3.80167 5.70336Z" fill="white"/>
                             </svg>
                             <div class="value_display">1000</div>
                         </div>
                     </div>
+                    <div class="points nos">
+                        <span data-points="1000">1000</span>
+                        <span data-points="2000">2000</span>
+                        <span data-points="3000">3000</span>
+                        <span data-points="4000">4000</span>
+                        <span data-points="5000">5000+</span>
+                    </div>
                 </div>
-                <input style="display: none;" id="vol_slider" type="range" min="1000" max="5000" step="50">
             </div>
             <div class="result_cards">
                 <div class="card card_with_suvae active">
@@ -607,7 +662,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                         <span>With</span>
                         <img src="<?php echo UDC_PLUGIN_ASSETS_FILE . '/images/suvae.png'; ?>" alt="suvae logo">
                     </div>
-                    <img src="<?php echo UDC_PLUGIN_ASSETS_FILE . '/images/happy.png'; ?>" alt="happy">
+                    <img class="ico" src="<?php echo $settings['happy']['url']; ?>" alt="happy">
                     <div class="reviewss">
                         <div class="range">
                             130-170
@@ -619,7 +674,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                     <div class="title">
                         <span>Without Suvae</span>
                     </div>
-                    <img src="<?php echo UDC_PLUGIN_ASSETS_FILE . '/images/sad.png'; ?>" alt="happy">
+                    <img class="ico" src="<?php echo $settings['sad']['url']; ?>" alt="happy">
                     <div class="reviewss">
                         <div class="range">
                             10-40
@@ -640,89 +695,34 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 
         <?php     if ( \Elementor\Plugin::$instance->editor->is_edit_mode()) : ?>
 			<script>
-                jQuery(document).ready(function ($) {
-                    var slider = $('#vol_slider');
-                    var handle = $('.handle');
-                    var slide = $('.slide');
-                    var min = parseInt(slider.attr('min'));
-                    var max = parseInt(slider.attr('max'));
-                    var points = $(".points span");
-                    
-                    // Update handle position on slider input
-                    slider.on('input', function() {
-                        var value = $(this).val();
-                        console.log(value)
-                        if(value > max - 5){
-                            value = max;
-                        }else if(value < min + 5){
-                            value = min;
-                        }
+                function udcSlider(element) {
+                    const values = parseInt(element.value);
+                    const max_value = parseInt(element.getAttribute("max"));
+                    const min_value = parseInt(element.getAttribute("min"));
 
-                        $('.value_display').text(value); // Update value display
-                        var percent = (value - min) / (max - min) * 100;
-                        var position = (slide.width() * percent) / 100;
-                        handle.css('left', position - 20 + 'px');
-                        $('.udc_container .fill').css('width', position + 'px');
+                    const fullValue = Math.round((values - min_value) / (max_value - min_value) * 100);
 
-                        // update suvae value
-                        const min_sua = Math.floor((6.5/100) * value);
-                        const max_sua = Math.floor((8/100) * value);
+                    element.parentElement.parentElement.querySelector(".value_display").textContent = values;
+                    element.parentElement.parentElement.querySelector('.handle').style.left = `calc(${fullValue}% - 17px)`;
+                    element.parentElement.parentElement.querySelector('.udc_container .fill').style.width = fullValue + '%';
 
-                        const min_sua_out = Math.floor((0.5/100) * value);
-                        const max_sua_out = Math.floor((2/100) * value);
+                    // Update suvae value
+                    const min_sua = Math.floor((6.5/100) * values);
+                    const max_sua = Math.floor((8/100) * values);
 
-                        $('.udc_container .card_with_suvae .range').text(min_sua + '-' + max_sua)
-                        $('.udc_container .card_without_suvae .range').text(min_sua_out + '-' + max_sua_out)
+                    const min_sua_out = Math.floor((0.5/100) * values);
+                    const max_sua_out = Math.floor((2/100) * values);
 
+                    element.parentElement.parentElement.parentElement.querySelector('.card_with_suvae .range').textContent = min_sua + '-' + max_sua;
+                    element.parentElement.parentElement.parentElement.querySelector('.card_without_suvae .range').textContent = min_sua_out + '-' + max_sua_out;
+                }
 
+                const rangeInputs = document.querySelectorAll(".custom_slider input");
+                rangeInputs.forEach(input => {
+                    udcSlider(input);
+                    input.addEventListener("input", function() {
+                        udcSlider(this);
                     });
-                    
-                    // Update slider value on handle drag
-                    handle.on('mousedown touchstart', function(e) {
-                        var offsetX;
-                        if (e.type === 'mousedown') {
-                            offsetX = e.pageX - handle.offset().left;
-                        } else if (e.type === 'touchstart') {
-                            var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-                            offsetX = touch.pageX - handle.offset().left;
-                        }
-
-                        $(document).on('mousemove.slider touchmove.slider', function(e) {
-                            var leftValue;
-                            if (e.type === 'mousemove') {
-                                leftValue = e.pageX - slide.offset().left - offsetX;
-                            } else if (e.type === 'touchmove') {
-                                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-                                leftValue = touch.pageX - slide.offset().left - offsetX;
-                            }
-
-                            var percent = (leftValue / slide.width()) * 100;
-                            if (percent >= 0 && percent <= 100) {
-                                var value = Math.round((percent / 100) * (max - min) + min);
-                                value = Math.min(max, Math.max(min, value)); // Ensure value stays within bounds
-                                var position = ((value - min) / (max - min)) * 100;
-                                handle.css('left', position + '%');
-                                slider.val(value).trigger('input');
-                            }
-                        });
-
-                        $(document).on('mouseup.slider touchend.slider', function() {
-                            $(document).off('.slider'); // Unbind all events related to slider
-                        });
-                    });
-
-                    
-                    
-                    // Move handle on click
-                    slide.on('click', function(e) {
-                        var offset = e.pageX - slide.offset().left;
-                        var percent = (offset / slide.width()) * 100;
-                        var value = Math.round((percent / 100) * (max - min) + min);
-                        value = Math.min(max, Math.max(min, value)); // Ensure value stays within bounds
-                        handle.css('left', percent + '%');
-                        slider.val(value).trigger('input');
-                    });
-                
                 });
             </script>
         <?php  endif; ?>
