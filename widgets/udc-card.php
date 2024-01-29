@@ -222,6 +222,37 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+        $this->add_control(
+			'text_align',
+			[
+				'label' => esc_html__( 'Alignment', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::CHOOSE,
+				'options' => [
+					'left' => [
+						'title' => esc_html__( 'Left', 'hz-widgets' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'hz-widgets' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => esc_html__( 'Right', 'hz-widgets' ),
+						'icon' => 'eicon-text-align-right',
+					],
+				],
+				'default' => 'center',
+				'toggle' => true,
+				'selectors' => [
+					'{{WRAPPER}} .udc_container h2' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .udc_container p' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .udc_container .note' => 'text-align: {{VALUE}};',
+
+
+				],
+			]
+		);
+
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[

@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pricing Card UDC
  * Description:       Pricing Card UDC Widget is created by Zain Hassan.
- * Version:           1.0.3
+ * Version:           1.0.4
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Zain Hassan
