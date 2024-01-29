@@ -87,9 +87,9 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 		return [ 'udc', 'card', 'pricing card', 'custom' ];
 	}
 
-    public function get_script_depends() {
-		return [ 'udc-card' ];
-	}
+    // public function get_script_depends() {
+	// 	return [ 'udc-card' ];
+	// }
 
 
 	/**
@@ -118,6 +118,16 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 				'rows' => 10,
 				'default' => __( 'The Power Of <span>Suvae<span>', 'hz-widgets' ),
 				'placeholder' => __( 'Type your description here', 'hz-widgets' ),
+			]
+		);
+
+        $this->add_control(
+			'sub_sub_heading',
+			[
+				'label' => esc_html__( 'Sub Title', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( "Securing and maintaining prime real estate on Amazon's first page is the key to success, here's how we help.", 'hz-widgets' ),
+				'placeholder' => esc_html__( 'Type your title here', 'hz-widgets' ),
 			]
 		);
 
@@ -169,6 +179,17 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 		);
 
         $this->add_control(
+			'suvae_logo',
+			[
+				'label' => esc_html__( 'Logo', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' =>    UDC_PLUGIN_ASSETS_FILE . '/images/suvae.png',
+				],
+			]
+		);
+
+        $this->add_control(
 			'sad',
 			[
 				'label' => esc_html__( 'Sad Image', 'hz-widgets' ),
@@ -213,9 +234,18 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
         $this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
+                'label' => esc_html__( 'Sub Title', 'hz-widgets' ),
+				'name' => 'subheading_sub_typography',
+				'selector' => '{{WRAPPER}} .udc_container .p1',
+			]
+		);
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
                 'label' => esc_html__( 'Sub Heading', 'hz-widgets' ),
 				'name' => 'subheading_typography',
-				'selector' => '{{WRAPPER}} .udc_container p',
+				'selector' => '{{WRAPPER}} .udc_container .p2',
 			]
 		);
 
@@ -332,6 +362,11 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 object-fit: contain;
             }
 
+            .udc_container .result_cards .ico_small{
+                height: 57px;
+                object-fit: contain;
+            }
+
             .udc_container .card {
                 background: linear-gradient(0deg, rgba(15, 60, 41, 0.4), rgba(15, 60, 41, 0.4));
                 border: 1px solid #FFFFFF;
@@ -393,6 +428,11 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 letter-spacing: 0em;
                 margin-bottom: 80px;
                 color: #FFFFFFCC;
+            }
+
+            .udc_container .p1 {
+                font-size: 20px;
+                font-weight: 400;
             }
 
             .udc_container .review {
@@ -634,7 +674,8 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
         <div class="udc_container">
             <div class="container">
             <h2><?php echo $settings['heading']; ?></h2>
-            <p><?php echo $settings['sub_heading']; ?></p>
+            <p class="p1"><?php echo $settings['sub_sub_heading']; ?></p>
+            <p class="p2"><?php echo $settings['sub_heading']; ?></p>
             <div class="range_slider">
                 <div class="custom_slider">
                     <input style="" id="vol_slider" type="range" min="1000" max="5000" step="50">
@@ -660,7 +701,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 <div class="card card_with_suvae active">
                     <div class="title">
                         <span>With</span>
-                        <img src="<?php echo UDC_PLUGIN_ASSETS_FILE . '/images/suvae.png'; ?>" alt="suvae logo">
+                        <img class="ico_small" src="<?php echo $settings['suvae_logo']['url']; ?>" alt="suvae logo">
                     </div>
                     <img class="ico" src="<?php echo $settings['happy']['url']; ?>" alt="happy">
                     <div class="reviewss">
@@ -693,7 +734,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
             </div>
         </div>
 
-        <?php     if ( \Elementor\Plugin::$instance->editor->is_edit_mode()) : ?>
+        <?php  //   if ( \Elementor\Plugin::$instance->editor->is_edit_mode()) : ?>
 			<script>
                 function udcSlider(element) {
                     const values = parseInt(element.value);
@@ -717,15 +758,15 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                     element.parentElement.parentElement.parentElement.querySelector('.card_without_suvae .range').textContent = min_sua_out + '-' + max_sua_out;
                 }
 
-                const rangeInputs = document.querySelectorAll(".custom_slider input");
-                rangeInputs.forEach(input => {
+                const rangeInputsUdc = document.querySelectorAll(".custom_slider input");
+                rangeInputsUdc.forEach(input => {
                     udcSlider(input);
                     input.addEventListener("input", function() {
                         udcSlider(this);
                     });
                 });
             </script>
-        <?php  endif; ?>
+        <?php // endif; ?>
 		<?php
 	}
 

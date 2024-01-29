@@ -20,8 +20,8 @@ function udcSlider(element) {
     element.parentElement.parentElement.parentElement.querySelector('.card_without_suvae .range').textContent = min_sua_out + '-' + max_sua_out;
 }
 
-const rangeInputs = document.querySelectorAll(".custom_slider input");
-rangeInputs.forEach(input => {
+const rangeInputsUdc = document.querySelectorAll(".custom_slider input");
+rangeInputsUdc.forEach(input => {
     udcSlider(input);
     input.addEventListener("input", function() {
         udcSlider(this);

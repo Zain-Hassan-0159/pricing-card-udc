@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pricing Card UDC
  * Description:       Pricing Card UDC Widget is created by Zain Hassan.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Zain Hassan
@@ -39,11 +39,13 @@ function register_udc_widget( $widgets_manager ) {
 }
 add_action( 'elementor/widgets/register', 'register_udc_widget' );
 
-function udc_register_dependencies_scripts() {
 
-	/* Scripts */
-	wp_register_script( 'udc-card', plugins_url( 'inc/assets/js/udc-card.js', __FILE__ ));
 
-}
-add_action( 'wp_enqueue_scripts', 'udc_register_dependencies_scripts' );
+// function udc_register_dependencies_scripts() {
+
+// 	/* Scripts */
+// 	wp_register_script( 'udc-card', plugins_url( 'inc/assets/js/udc-card.js', __FILE__ ));
+
+// }
+// add_action( 'wp_enqueue_scripts', 'udc_register_dependencies_scripts' );
 
