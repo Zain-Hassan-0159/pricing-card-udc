@@ -210,6 +210,27 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 				],
 			]
 		);
+
+        $this->add_control(
+			'happy_text',
+			[
+				'label' => esc_html__( 'Happy Title', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Customer Reviews', 'hz-widgets' ),
+				'placeholder' => esc_html__( 'Type your title here', 'hz-widgets' ),
+			]
+		);
+
+        $this->add_control(
+			'sad_text',
+			[
+				'label' => esc_html__( 'Sad Title', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Customer Reviews', 'hz-widgets' ),
+				'placeholder' => esc_html__( 'Type your title here', 'hz-widgets' ),
+			]
+		);
+
 	
 
 		$this->end_controls_section();
@@ -219,6 +240,26 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 			[
 				'label' => esc_html__( 'Style', 'hz-widgets' ),
 				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+        $this->add_responsive_control(
+			'padding',
+			[
+				'label' => esc_html__( 'Section Padding', 'hz-widgets' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
+				'default' => [
+					'top' => 32,
+					'right' => 32,
+					'bottom' => 32,
+					'left' => 32,
+					'unit' => 'px',
+					'isLinked' => false,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .udc_container' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -445,6 +486,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 letter-spacing: 0em;
                 text-align: center;
                 color: white;
+                margin-top: 0;
             }
 
             .udc_container h2 span{
@@ -500,7 +542,6 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                 color: #104CBA;
                 font-family: 'Inter', sans-serif;
                 border-radius: 8px;
-                margin-bottom: 40px;
             }
 
             .udc_container .card.card_with_suvae.active {
@@ -739,7 +780,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                         <div class="range">
                             130-170
                         </div>
-                        <div class="review">Customer Reviews</div>
+                        <div class="review"><?php echo $settings['happy_text']; ?></div>
                     </div>
                 </div>
                 <div class="card card_without_suvae">
@@ -751,7 +792,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
                         <div class="range">
                             10-40
                         </div>
-                        <div class="review">Customer Reviews</div>
+                        <div class="review"><?php echo $settings['sad_text']; ?></div>
                     </div>
                 </div>
             </div>
