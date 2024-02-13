@@ -222,7 +222,7 @@ class Elementor_Udc_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
-        $this->add_control(
+        $this->add_responsive_control(
 			'text_align',
 			[
 				'label' => esc_html__( 'Alignment', 'hz-widgets' ),
